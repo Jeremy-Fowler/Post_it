@@ -1,8 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <nav class="navbar navbar-expand-lg px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+      <div class="d-flex align-items-center">
+        <img alt="logo" src="../assets/img/Camera roll.png" height="40" />
+        <h1 class="mx-3 mb-0 text-white">Post_it</h1>
       </div>
     </router-link>
     <button
@@ -19,12 +20,9 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link
-            :to="{ name: 'About' }"
-            class="btn text-success lighten-30 selectable text-uppercase"
-          >
-            About
-          </router-link>
+          <button class="btn btn-success text-white">
+            <i class="mdi mdi-plus-box-outline me-1"></i> new album
+          </button>
         </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
@@ -34,9 +32,13 @@
 </template>
 
 <script>
+import { albumsService } from '../services/AlbumsService';
+import { logger } from '../utils/Logger';
+import Pop from '../utils/Pop';
 export default {
   setup() {
-    return {};
+    return {
+    };
   },
 };
 </script>

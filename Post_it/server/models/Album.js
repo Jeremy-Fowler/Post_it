@@ -16,3 +16,11 @@ AlbumSchema.virtual('creator', {
   justOne: true,
   ref: 'Account'
 })
+
+AlbumSchema.virtual('collaborators', {
+  localField: '_id',
+  foreignField: 'albumId',
+  ref: 'Collaborator'
+})
+
+
