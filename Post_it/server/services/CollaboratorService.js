@@ -3,6 +3,13 @@ import { Forbidden } from "../utils/Errors"
 import { albumsService } from "./AlbumsService"
 
 class CollaboratorsService {
+  async getMyAlbums(accountId) {
+    const albums = await dbContext.Collaborators.find({ accountId }).populate('album')
+    await albums.forEach(async c => {
+      await c.album.populate('collaborators')
+    })
+    return albums
+  }
   async getCollaborators(albumId) {
     const collabs = await dbContext.Collaborators.find({ albumId }).populate('account', 'name picture')
     return collabs
@@ -18,6 +25,7 @@ class CollaboratorsService {
     }
     const collab = await dbContext.Collaborators.create(body)
     await collab.populate('account', 'name picture')
+    await collab.populate('album')
     return collab
   }
 

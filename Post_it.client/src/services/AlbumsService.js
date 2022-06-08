@@ -13,6 +13,13 @@ class AlbumsService {
     logger.log(res.data)
     AppState.album = res.data
   }
+
+  async create(data) {
+    const res = await api.post('api/albums', data)
+    logger.log(res.data)
+    AppState.albums.push(res.data)
+    AppState.myAlbums.push(res.data)
+  }
 }
 
 export const albumsService = new AlbumsService()

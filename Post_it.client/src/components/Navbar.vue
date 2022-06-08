@@ -20,7 +20,11 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <button class="btn btn-success text-white">
+          <button
+            class="btn btn-success text-white"
+            data-bs-toggle="modal"
+            data-bs-target="#album-modal"
+          >
             <i class="mdi mdi-plus-box-outline me-1"></i> new album
           </button>
         </li>
@@ -29,6 +33,14 @@
       <Login />
     </div>
   </nav>
+  <Modal id="album-modal">
+    <template #modal-title-slot>
+      <h3 class="text-dark">Create a new Album!</h3>
+    </template>
+    <template #modal-body-slot>
+      <AlbumForm />
+    </template>
+  </Modal>
 </template>
 
 <script>
