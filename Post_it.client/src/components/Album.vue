@@ -3,10 +3,7 @@
     <router-link :to="{ name: 'Album', params: { id: album.id } }">
       <div class="bg-success rounded text-light selectable">
         <img :src="album.imgUrl" alt="" class="img-fluid rounded-top" />
-        <p class="text-center pt-2">{{ album.title }}</p>
-        <p class="text-center pb-2">
-          <i class="mdi mdi-heart"></i> {{ album.collaborators.length }}
-        </p>
+        <p class="text-center py-2">{{ album.title }}</p>
       </div>
     </router-link>
   </div>
@@ -29,4 +26,9 @@ export default {
 
 
 <style lang="scss" scoped>
+img {
+  height: 30vh;
+  object-fit: cover;
+  width: 100%;
+}
 </style>

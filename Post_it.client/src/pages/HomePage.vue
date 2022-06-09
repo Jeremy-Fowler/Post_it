@@ -2,6 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 my-2"><h2>My albums</h2></div>
+      <Album v-for="a in myAlbums" :key="a.id" :album="a.album" />
       <div class="col-12 my-2"><h2>Popular albums</h2></div>
       <Album v-for="a in albums" :key="a.id" :album="a" />
     </div>
@@ -27,7 +28,8 @@ export default {
       }
     })
     return {
-      albums: computed(() => AppState.albums)
+      albums: computed(() => AppState.albums),
+      myAlbums: computed(() => AppState.myAlbums)
     }
   }
 }

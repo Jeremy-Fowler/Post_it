@@ -1,15 +1,5 @@
 <template>
-  <form @submit.prevent="createAlbum()" class="text-dark">
-    <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input
-        type="text"
-        class="form-control"
-        id="title"
-        required
-        v-model="editable.title"
-      />
-    </div>
+  <form @submit.prevent="createPicture()" class="text-dark">
     <div class="mb-3">
       <label for="imgUrl" class="form-label">Image URL</label>
       <input
@@ -27,22 +17,21 @@
 
 <script>
 import { ref } from '@vue/reactivity'
+import { picturesService } from '../services/PicturesService'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
-import { albumsService } from '../services/AlbumsService'
+import { useRoute } from 'vue-router'
 import { Modal } from 'bootstrap'
-import { useRouter } from 'vue-router'
 export default {
   setup() {
-    const editable = ref({})
-    const router = useRouter()
+    const route = useRoute()
+    const editable = ref({ albumId: route.params.id })
     return {
       editable,
-      async createAlbum() {
+      async createPicture() {
         try {
-          const albumId = await albumsService.create(editable.value)
-          Modal.getOrCreateInstance('#album-modal').hide()
-          router.push({ name: 'Album', params: { id: albumId } })
+          await picturesService.create(editable.value)
+          Modal.getOrCreateInstance('#picture-modal').hide()
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')

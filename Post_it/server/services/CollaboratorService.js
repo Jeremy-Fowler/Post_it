@@ -5,9 +5,6 @@ import { albumsService } from "./AlbumsService"
 class CollaboratorsService {
   async getMyAlbums(accountId) {
     const albums = await dbContext.Collaborators.find({ accountId }).populate('album')
-    await albums.forEach(async c => {
-      await c.album.populate('collaborators')
-    })
     return albums
   }
   async getCollaborators(albumId) {
@@ -15,10 +12,6 @@ class CollaboratorsService {
     return collabs
   }
   async create(body) {
-    const album = await albumsService.getById(body.albumId)
-    if (album.creatorId.toString() == body.accountId) {
-      throw new Forbidden('Cannot be a collaborator on your own album')
-    }
     const badCollab = await this.getOne(body)
     if (badCollab) {
       throw new Forbidden('Already a collaborator')

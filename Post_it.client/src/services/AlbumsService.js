@@ -17,8 +17,9 @@ class AlbumsService {
   async create(data) {
     const res = await api.post('api/albums', data)
     logger.log(res.data)
-    AppState.albums.push(res.data)
-    AppState.myAlbums.push(res.data)
+    AppState.albums.push(res.data[0])
+    AppState.myAlbums.push(res.data[1])
+    return res.data[0].id
   }
 }
 

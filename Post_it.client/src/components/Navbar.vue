@@ -21,6 +21,7 @@
       <ul class="navbar-nav me-auto">
         <li>
           <button
+            v-if="account.id"
             class="btn btn-success text-white"
             data-bs-toggle="modal"
             data-bs-target="#album-modal"
@@ -44,12 +45,15 @@
 </template>
 
 <script>
+import { computed } from '@vue/reactivity';
 import { albumsService } from '../services/AlbumsService';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
+import { AppState } from '../AppState';
 export default {
   setup() {
     return {
+      account: computed(() => AppState.account)
     };
   },
 };

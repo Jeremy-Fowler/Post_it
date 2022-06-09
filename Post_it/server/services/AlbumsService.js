@@ -1,9 +1,10 @@
 import { dbContext } from "../db/DbContext"
 import { BadRequest } from "../utils/Errors"
+import { collaboratorsService } from "./CollaboratorService"
 
 class AlbumsService {
   getAll(query = {}) {
-    const albums = dbContext.Albums.find({ query }).populate('creator', 'name picture').populate('collaborators')
+    const albums = dbContext.Albums.find({ query }).populate('creator', 'name picture')
     return albums
   }
   async getById(id) {
@@ -16,7 +17,8 @@ class AlbumsService {
   async create(body) {
     const album = await dbContext.Albums.create(body)
     await album.populate('creator', 'name picture')
-    return album
+    const collab = await collaboratorsService.create({ albumId: album.id, accountId: body.creatorId })
+    return [album, collab]
   }
 
 }

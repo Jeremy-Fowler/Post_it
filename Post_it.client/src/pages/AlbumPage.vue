@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-4">
+      <div class="col-3">
         <div class="row">
           <div class="col-7">
             <img :src="album.imgUrl" alt="" class="img-fluid rounded" />
@@ -11,7 +11,12 @@
               <p class="text-white mt-1">{{ album.title }}</p>
               <p>by {{ album.creator?.name }}</p>
             </div>
-            <button class="btn btn-danger mt-3 text-light">
+            <button
+              v-if="account.id"
+              data-bs-toggle="modal"
+              data-bs-target="#picture-modal"
+              class="btn btn-danger mt-3 text-light"
+            >
               <i class="mdi mdi-plus-box-outline me-1"></i> add Picture
             </button>
           </div>
@@ -25,6 +30,8 @@
               v-if="account.id"
               @click="createCollab()"
               class="btn btn-success text-white"
+              :class="{ disabled: isCollab }"
+              :disabled="{ isCollab }"
             >
               <i class="mdi mdi-heart"></i> Collaborate
             </button>
@@ -41,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div class="col-8">
+      <div class="col-9">
         <div class="row">
           <div v-for="p in pictures" :key="p.id" class="col-md-4">
             <img
@@ -55,6 +62,14 @@
       </div>
     </div>
   </div>
+  <Modal id="picture-modal">
+    <template #modal-title-slot>
+      <h3 class="text-dark">Create a new Picture!</h3>
+    </template>
+    <template #modal-body-slot>
+      <PictureForm />
+    </template>
+  </Modal>
 </template>
 
 
@@ -90,6 +105,9 @@ export default {
       account: computed(() => AppState.account),
       collaborators: computed(() => AppState.collaborators),
       pictures: computed(() => AppState.pictures),
+      isCollab: computed(() => {
+        return AppState.collaborators.find(c => c.accountId == AppState.account.id) !== null
+      }),
       async createCollab() {
         try {
           await collaboratorsService.create(route.params.id)
